@@ -66,5 +66,17 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 sudo systemctl reload nginx 
 
 
+github actions
+
+
+sudo ./svc.sh install
+
+
+sudo ./svc.sh start
+
+
+
+sudo ./svc.sh status 
+
 
 
