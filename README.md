@@ -80,3 +80,37 @@ sudo ./svc.sh status
 
 
 
+
+react app 
+sudo nano /etc/nginx/sites-available/react-app
+
+
+server {
+    listen 80;
+    server_name your-domain.com www.your-domain.com;  # Replace with your domain or IP
+
+    root /home/ec2-user/your-react-app/build;  # Path to your build folder
+    # or for Ubuntu: root /home/ubuntu/your-react-app/build;
+    
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;  # Important for React Router
+    }
+
+    # Additional configurations for API proxy if needed
+    # location /api {
+    #     proxy_pass http://localhost:5000;
+    #     proxy_http_version 1.1;
+    #     proxy_set_header Upgrade $http_upgrade;
+    #     proxy_set_header Connection 'upgrade';
+    #     proxy_set_header Host $host;
+    #     proxy_cache_bypass $http_upgrade;
+    # }
+}
+sudo ln -s /etc/nginx/sites-available/react-app /etc/nginx/sites-enabled/
+sudo nginx -t  # Test configuration
+sudo systemctl restart nginx
+
+
+
