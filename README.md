@@ -3,6 +3,8 @@ sudo apt update
 
 # Install Node.js and npm
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+
+
 sudo apt install -y nodejs
 
 # Verify installation
