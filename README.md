@@ -61,8 +61,14 @@ server {
 sudo ln -s /etc/nginx/sites-available/api-skoegle-config /etc/nginx/sites-enabled/
 
 sudo rm /etc/nginx/sites-enabled/default
+
+
+
 sudo nginx -t
+
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+
+
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 
 sudo systemctl reload nginx 
