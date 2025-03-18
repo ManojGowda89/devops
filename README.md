@@ -154,7 +154,33 @@ sudo chmod -R 755 /var/www/vmarg.skoegle.com
 
 
 
+sudo systemctl restart nginx 
+
+
+
+
+sudo rm -rf /var/www/vmarg.skoegle.com/dist
+
+
+
+sudo mv ~/vmarg/dist /var/www/vmarg.skoegle.com/
+
+
+ls -lah /var/www/vmarg.skoegle.com/
+
+
+
+sudo chown -R www-data:www-data /var/www/vmarg.skoegle.com
+sudo chmod -R 755 /var/www/vmarg.skoegle.com
+
+
+
 sudo systemctl restart nginx
+
+
+
+sudo systemctl reload nginx
+
 
 
 
