@@ -83,36 +83,81 @@ sudo ./svc.sh status
 
 
 
-react app 
-sudo nano /etc/nginx/sites-available/react-app
-
-
 server {
     listen 80;
-    server_name your-domain.com www.your-domain.com;  # Replace with your domain or IP
+    listen [::]:80;
+    server_name vmarg.skoegle.com;
 
-    root /home/ec2-user/your-react-app/build;  # Path to your build folder
-    # or for Ubuntu: root /home/ubuntu/your-react-app/build;
-    
+    root /var/www/vmarg.skoegle.com/dist;
     index index.html;
 
     location / {
-        try_files $uri $uri/ /index.html;  # Important for React Router
+        try_files $uri /index.html;
     }
 
-    # Additional configurations for API proxy if needed
-    # location /api {
-    #     proxy_pass http://localhost:5000;
-    #     proxy_http_version 1.1;
-    #     proxy_set_header Upgrade $http_upgrade;
-    #     proxy_set_header Connection 'upgrade';
-    #     proxy_set_header Host $host;
-    #     proxy_cache_bypass $http_upgrade;
-    # }
+    location /assets/ {
+        root /var/www/vmarg.skoegle.com/dist;
+    }
+
+    location /favicon.ico {
+        root /var/www/vmarg.skoegle.com/dist;
+    }
+
+    location /robots.txt {
+        root /var/www/vmarg.skoegle.com/dist;
+    }
+
+    error_page 404 /index.html;
 }
-sudo ln -s /etc/nginx/sites-available/react-app /etc/nginx/sites-enabled/
-sudo nginx -t  # Test configuration
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name api.skoegle.com;
+
+    location / {
+        proxy_pass http://localhost:12000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+
+
+ls -lah ~/vmarg/dist
+
+
+
+
+
+ npm run build
+
+
+
+sudo mv ~/vmarg/dist /var/www/vmarg.skoegle.com/
+
+
+
+ls -lah /var/www/vmarg.skoegle.com/
+
+
+
+sudo chown -R www-data:www-data /var/www/vmarg.skoegle.com
+sudo chmod -R 755 /var/www/vmarg.skoegle.com
+
+
+
+
 sudo systemctl restart nginx
 
+
+
+sudo nginx -t
 
 
