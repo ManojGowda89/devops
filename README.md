@@ -171,6 +171,9 @@ ls -lah /var/www/vmarg.skoegle.com/
 
 
 sudo chown -R www-data:www-data /var/www/vmarg.skoegle.com
+
+
+
 sudo chmod -R 755 /var/www/vmarg.skoegle.com
 
 
