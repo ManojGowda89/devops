@@ -196,3 +196,19 @@ sudo systemctl reload nginx
 sudo nginx -t
 
 
+
+
+
+
+
+app.use(express.static(path.join(__dirname, '..', 'vmarg', 'dist')));
+
+
+
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'vmarg', 'dist', 'index.html'));
+});
+
+
