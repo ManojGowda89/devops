@@ -27,6 +27,17 @@ sudo npm install -g pm2
 
 pm2 save 
 
+
+
+
+sudo ./svc.sh install 
+
+
+
+sudo ./svc.sh start 
+
+
+sudo ./svc.sh status
 # setup ngnix revers proxy
 
 sudo nano /etc/nginx/sites-available/api-skoegle-config
