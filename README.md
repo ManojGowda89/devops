@@ -218,8 +218,61 @@ app.use(express.static(path.join(__dirname, '..', 'vmarg', 'dist')));
 
 
 
+
+
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'vmarg', 'dist', 'index.html'));
 });
+
+
+
+
+
+
+upstream backend {
+    server 127.0.0.1:13001;  # First container exposed on host port 13001
+    server 127.0.0.1:13002;  # Second container exposed on host port 13002
+  server 127.0.0.1:13003;  # Second container exposed on host port 13002
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name _;  # Catch-all for all hostnames/IPs
+
+    location / {
+        proxy_pass http://backend;  # Forward requests to the "backend" upstream
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+
+//ec2
+docker pull manoj20002/deploymentimage:latest 
+ manoj20002/deploymentimage:latest
+
+ sudo docker run -d -p 13000:13000 manoj20002/deploymentimage 
+
+
+
+
+//docker hub
+ docker tag deploymentimage manoj20002/deploymentimage:latest
+
+ docker build -t deploymentimage .
+
+docker push manoj20002/deploymentimage:latest  
+ 
 
 
