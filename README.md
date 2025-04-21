@@ -275,4 +275,4 @@ docker pull manoj20002/deploymentimage:latest
 docker push manoj20002/deploymentimage:latest  
  
 docker run -d --name redis-server -p 6379:6379 redis
-
+docker exec -it redis-server redis-cli
