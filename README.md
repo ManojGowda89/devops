@@ -275,4 +275,17 @@ docker pull manoj20002/deploymentimage:latest
 docker push manoj20002/deploymentimage:latest  
  
 docker run -d --name redis-server -p 6379:6379 redis
-docker exec -it redis-server redis-cli
+docker exec -it redis-server redis-cli 
+
+
+
+docker volume create mongodb_data
+ docker run -d \
+  --name mongodb \
+  -p 27017:27017 \
+  -v mongodb_data:/data/db \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
+  mongo
+mongodb://admin:admin123@localhost:27017
+
