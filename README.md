@@ -288,4 +288,33 @@ docker volume create mongodb_data
   -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
   mongo
 mongodb://admin:admin123@localhost:27017
+upstream backend {
+    server 127.0.0.1:12001;
+    server 127.0.0.1:12002;
+    server 127.0.0.1:12003;
+    server 127.0.0.1:12004;
+    server 127.0.0.1:12005;
+}
+
+    server {
+         listen 80;
+      listen [::]:80;
+
+       server_name dev-vmarg.skoegle.com;
+
+           location / {
+        proxy_pass http://backend;
+
+            proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host;
+         proxy_cache_bypass $http_upgrade;
+
+         proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+     }
+}
+
 
