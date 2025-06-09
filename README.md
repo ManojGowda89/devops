@@ -317,4 +317,7 @@ upstream backend {
      }
 }
 
+nohup serve -s dist -l 3000 > serve.log 2>&1 &
+kill %1
+kill -9 %1
 
